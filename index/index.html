@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Calculator app</title>
+  <link rel="stylesheet" href="../bootstrap/dist/css/bootstrap.css">
+  <link href="https://fonts.googleapis.com/css?family=Arimo|Noto+Sans|Nova+Mono" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="containerx">
+  <div class="upper-box"></div>
+  <div class="middle-box">
+    <div class="calculator">
+      <div class="screen">
+        <span style="margin-right: 3%" id="main-screen" class="main-screen">0</span>
+      </div>
+      <div style="margin: 4%" class="button-section">
+        <div class="button-row">
+          <section class="press">
+            <button id="clear">AC</button>
+          </section>
+          <section class="press">
+            <button id="backspace" style="font-size: 30px">←</button>
+          </section>
+          <section class="press" style="flex: 2.1">
+            <button id="division">÷</button>
+          </section>
+          <section class="press" style="flex: 2.1">
+            <button id="multiplication">x</button>
+          </section>
+        </div>
+        <div class="button-row">
+          <section class="press">
+            <button class="btn-number" id="7">7</button>
+          </section>
+          <section class="press">
+            <button class="btn-number" id="8">8</button>
+          </section>
+          <section class="press">
+            <button class="btn-number" id="9">9</button>
+          </section>
+          <section class="press">
+            <button id="plus">+</button>
+          </section>
+        </div>
+        <div class="button-row">
+          <section class="press">
+            <button class="btn-number" id="4">4</button>
+          </section>
+          <section class="press">
+            <button class="btn-number" id="5">5</button>
+          </section>
+          <section class="press">
+            <button class="btn-number" id="6">6</button>
+          </section>
+          <section class="press" style="flex: 1.5">
+            <button id="minus">-</button>
+          </section>
+        </div>
+        <div class="button-row">
+          <section class="press">
+            <button class="btn-number" id="1">1</button>
+          </section>
+          <section class="press">
+            <button class="btn-number" id="2">2</button>
+          </section>
+          <section class="press">
+            <button class="btn-number" id="3">3</button>
+          </section>
+          <section class="press">
+            <button id="equals" style="height: 250%">=</button>
+          </section>
+        </div>
+        <div class="button-row" style="width: 74%">
+          <section class="press" style="flex: 2.9; width: 100%">
+            <button class="btn-number" id="0" style="width: 80%">0</button>
+          </section>
+          <section class="press">
+            <button id="dot" style="width: 66%">.</button>
+          </section>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bottom-box"></div>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+     let currentView = ["0"];
+     let currentViewTwo = [];
+     let dotOne = false;
+     let dotTwo = false;
+     const normalButtons = document.querySelectorAll('.btn-number');
+     const screen = document.getElementById("main-screen");
+     const backspace = document.getElementById("backspace");
+     const erase = document.getElementById("clear");
+     const division = document.getElementById("division");
+     const multiplication = document.getElementById("multiplication");
+     const plus = document.getElementById("plus");
+     const minus = document.getElementById("minus");
+     const equals = document.getElementById("equals");
+     const dot = document.getElementById("dot");
+
+
+     normalButtons.forEach(btn => btn.addEventListener('click', showValue));
+     backspace.addEventListener('click', undo);
+     erase.addEventListener('click', clear);
+     division.addEventListener('click', divide);
+     equals.addEventListener('click', equal);
+     multiplication.addEventListener('click', multiply);
+     plus.addEventListener('click', add);
+     minus.addEventListener('click', deduct);
+     dot.addEventListener('click', addDot);
+
+     let initialZero = true;
+     let initialZeroTwo = false;
+     let error = false;
+     let numberOne = false;
+     let afterEquals = false;
+     let newAction = false;
+     let action;
+
+     function makeAction(newValue){
+          x1 = Number(currentView.join(""));
+          x2 = Number(currentViewTwo.join(""));
+          if(action === "divide"){
+               answer = x1/x2;}
+          else if(action === "multiply"){
+               answer = x1*x2;}
+          else if(action === "add"){
+               answer = x1+x2;}
+          else if(action === "minus"){
+               answer = x1-x2;}
+          currentView = [answer];
+          currentViewTwo = [];
+          newString = currentView.join("");
+          if(Number(newString) > 999999999999999){
+               screen.textContent= "NaN";
+               error = true;
+          }
+          else if(newString.length >15){
+               newString = newString.slice(0,14);
+          }
+          currentView = newString.split("");
+          dotTwo = false;
+          if(!error){
+               screen.textContent = newString;
+          }
+          afterEquals = true;
+          action = newValue
+     }
+     function equalAction() {
+          x1 = Number(currentView.join(""));
+          x2 = Number(currentViewTwo.join(""));
+          if(action === "divide"){
+               answer = x1/x2;}
+          else if(action === "multiply"){
+               answer = x1*x2;}
+          else if(action === "add"){
+               answer = x1+x2;}
+          else if(action === "minus"){
+               answer = x1-x2;}
+          currentView = [answer.toString()];
+          currentViewTwo = [];
+          newString = currentView.join("");
+          if(Number(newString) > 999999999999999){
+               screen.textContent= "NaN";
+               error = true;
+          }
+          else if(newString.length >15){
+               newString = newString.slice(0,14);
+          }
+          if (Number(newString) === 0) {
+               initialZero = true;
+          }
+          numberOne = false;
+          action = "";
+          dotOne = false;
+          dotTwo = false;
+          if(!error){
+               screen.textContent = newString;
+          }
+          afterEquals = true;
+          newAction = true;
+     }
+
+     function showValue() {
+          if(newAction === true){
+               currentView = [];
+               newAction = false;
+          }
+
+          if(initialZero){
+               newValue = this.id;
+                if(Number(newValue) !== 0){
+                    currentView.pop();
+                    initialZero = false;
+                }
+          }
+          if(initialZeroTwo && numberOne){
+               newValue = this.id;
+               if(Number(newValue) !== 0){
+                    currentViewTwo.pop();
+                    initialZeroTwo = false;
+               }
+          }
+          if(currentView.length > 14 && !numberOne){
+               screen.textContent= "NaN";
+               error = true;
+          }
+          else if(currentViewTwo.length > 14){
+               screen.textContent= "NaN";
+               error = true;
+          }
+          else if(!numberOne){
+               afterEquals = false;
+               newValue = this.id;
+
+               if(Number(newValue) !== 0){
+                    currentView.push(newValue);
+                    newString = currentView.join("");
+                    screen.textContent = newString;
+               }
+               else if(currentView[0] !== "" && !initialZero){
+                    currentView.push(newValue);
+                    newString = currentView.join("");
+                    screen.textContent = newString;
+               }
+          }
+          else if(numberOne){
+               newValue = this.id;
+               if(Number(newValue) !== 0){
+                    currentViewTwo.push(newValue);
+                    newString = currentViewTwo.join("");
+                    screen.textContent = newString;
+                    initialZeroTwo = false;
+               }
+               else if(currentViewTwo.length === 1 && currentViewTwo[0] === "0"){}
+               else if(currentViewTwo[0] !== "" && !initialZeroTwo){
+                    currentViewTwo.push(newValue);
+                    newString = currentViewTwo.join("");
+                    screen.textContent = newString;
+                    initialZeroTwo = false;
+               }
+
+          }
+
+
+     }
+     function undo() {
+          if(error){}
+          else if(currentView.length > 0 && !numberOne){
+               check = currentView.pop();
+               if(check === "."){
+                    dotOne = false;
+               }
+               if(currentView.length === 0){
+                    currentView.push("0");
+                    initialZero = true;
+               }
+               newString = currentView.join("");
+               screen.textContent = newString;
+          }
+          else if(currentViewTwo.length > 0 && numberOne){
+               check = currentViewTwo.pop();
+               if(check === "."){
+                    dotTwo = false;
+               }
+               if(currentViewTwo.length === 0){
+                    currentViewTwo.push("0");
+                    initialZeroTwo = true;
+               }
+               newString = currentViewTwo.join("");
+               screen.textContent = newString;
+          }
+     }
+     function clear() {
+          currentView = ["0"];
+          currentViewTwo = [];
+          dotOne = false;
+          dotTwo = false;
+          newString = currentView.join("");
+          screen.textContent = "0";
+          initialZero = true;
+          initialZeroTwo = false;
+          error = false;
+          numberOne = false;
+          afterEquals = false;
+          newAction = false;
+          action = "";
+     }
+     function divide() {
+          if(error){}
+          else if(!numberOne){
+               numberOne = true;
+               action = "divide";
+               afterEquals = false;
+               newAction = false;
+          }
+          else if(numberOne && currentViewTwo.length > 0){
+               makeAction("divide");
+          }
+
+     }
+     function multiply() {
+          if(error){}
+          else if(!numberOne){
+               numberOne = true;
+               action = "multiply";
+               afterEquals = false;
+               newAction = false;
+          }
+          else if(numberOne && currentViewTwo.length > 0){
+               makeAction("multiply");
+          }
+
+     }
+     function add() {
+          if(error){}
+          else if(!numberOne){
+               numberOne = true;
+               action = "add";
+               afterEquals = false;
+               newAction = false;
+          }
+          else if(numberOne && currentViewTwo.length > 0){
+               makeAction("add");
+          }
+
+     }
+     function deduct() {
+          if(error){}
+          else if(!numberOne){
+               numberOne = true;
+               action = "minus";
+               afterEquals = false;
+               newAction = false;
+          }
+          else if(numberOne && currentViewTwo.length > 0){
+               makeAction("minus");
+          }
+
+     }
+     function equal() {
+          if(action && currentViewTwo.length > 0){
+               equalAction();
+          }
+     }
+     function addDot() {
+          if(error){}
+          else if(afterEquals && currentView.length === 0){
+               currentView.push("0");
+               currentView.push(".");
+               newString = currentView.join("");
+               screen.textContent = newString;
+               dotOne = true;
+               initialZero = false;
+               initialZeroTwo = false;
+               afterEquals = false;
+               newAction = false;
+          }
+          if(error){}
+          else if(!numberOne && !dotOne && currentView.length > 0){
+               if(!currentView[0].includes(".")){
+                    currentView.push(".");
+                    newString = currentView.join("");
+                    screen.textContent = newString;
+                    dotOne = true;
+                    initialZero = false;
+                    initialZeroTwo = false;
+                    afterEquals = false;
+                    newAction = false;
+               }
+          }
+          if(error){}
+          else if(numberOne && !dotTwo && currentViewTwo.length > 0){
+               currentViewTwo.push(".");
+               newString = currentViewTwo.join("");
+               screen.textContent = newString;
+               dotTwo = true;
+               initialZeroTwo = false;
+          }
+     }
+
+  
+</script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+/* CSS Normalize */
+:root{
+  --background-color: #286da8;
+  --calculator-color: #cd5360;
+  --font: 'Noto Sans', sans-serif;
+  --font-size: 20px;
+  --font-weight: 600;
+  --screen-font: 'Nova Mono', monospace;;
+  --screen-font-size: 3.5vh;
+  --screen-font-color: black;
+  }
+
+.containerx {
+  display:flex;
+  height:100vh;
+  flex-direction: column;
+}
+.upper-box{
+  background-color: var(--background-color);
+  display: flex;
+  flex: 0.8;
+}
+.middle-box{
+  background-color: var(--background-color);
+  display: flex;
+  flex: 2.2;
+  flex-direction: row;
+  justify-content: center;
+}
+.bottom-box{
+  background-color: var(--background-color);
+  display: flex;
+  flex: 1.5;
+  z-index: -1;
+}
+.calculator{
+  display:flex;
+  flex-direction: column;
+  background-color: var(--calculator-color);
+  color: white;
+  box-shadow: 0px 0px 36px 7px rgba(0,0,0,0.75);
+  border: solid 1px white;
+  border-radius: 8%;
+  width: 38vh;
+}
+.screen{
+  font-family: var(--screen-font);
+  color: var(--screen-font-color);
+  font-size: var(--screen-font-size);
+  flex: 1.25;
+  margin-top: 7%;
+  margin-left: 7.5%;
+  height: 15%;
+  border: 2px solid #fafff3;
+  border-radius: 3px;
+  display:flex;
+  align-items: center;
+  align-content: flex-end;
+  justify-content: flex-end;
+  flex-direction: row;
+  background-color: rgb(194, 194, 194);
+  width: 85%;
+}
+.main-screen{
+}
+.second-screen{
+}
+.button-section{
+  font-family: var(--font);
+  font-size: var(--font-size);
+  font-weight: var(--font-weight);
+  flex: 7;
+  display: flex;
+  flex-direction: column;
+}
+.button-row{
+  margin-top: 2%;
+  margin-bottom: 5%;
+  flex: 1;
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  align-items: stretch;
+  align-self: stretch;
+  flex-wrap: wrap;
+}
+section{
+  display: flex;
+  justify-content: space-around;
+  flex-grow: 1;
+  flex-wrap: wrap;
+}
+
+section.press button {
+  width: 62%;
+  color: #fff;
+  background-color: #ffb16a;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0 10px #27496d;
+}
+
+section.press button:hover,
+section.press button.hover {
+  background-color: rgb(215, 145, 94)
+}
+
+section.press button:active,
+section.press button.active {
+  background-color: rgb(215, 145, 94);
+  box-shadow: 0 5px #27496d;
+  transform: translateY(5px);
+}
+
+@media (min-width: 0px) {
+
+}
+@media (min-width: 568px) {
+
+}
+@media (min-width: 768px) {
+
+}
+@media (min-width: 992px) {
+
+}
+@media (min-width: 1100px) {
+
+}
+@media (min-width: 1200px) {
+
+}
+@media (min-width: 1600px) {
+
+}
+
